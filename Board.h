@@ -31,6 +31,8 @@ public:
     void moveSnake();
     void updateDirection(Input in);
     
+    char output(int r, int c);
+    
     std::mutex board_update;
 };
 

@@ -66,4 +66,6 @@ void Board::updateDirection(Input in){
     }
 }
 
-
+char Board::output(int r, int c){
+    return tiles[r][c].getOutput();
+}

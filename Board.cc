@@ -24,26 +24,29 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
 void Board::advanceSnake(){
     Input dir = direction.load();
     Pos f = snake.front();
-    Pos new_f{0, 0};
     switch(dir){
         case LEFT:
+            --f.c;
+            break;	
         case RIGHT:
-            new_f = {f.r, (f.c + dir)};
+            ++f.c;
             break;
         case UP:
+            --f.r;
+            break;
         case DOWN:
-            new_f = {f.r + dir, f.c};
+            ++f.r;
             break;
         case INVALID: 
         case QUIT: return;
     }
-    new_f.r = (new_f.r + height) % height;
-    new_f.c = (new_f.c + width) % width;
+    f.r = (f.r + height) % height;
+    f.c = (f.c + width) % width;
     Pos b = snake.back();
     tiles[b.r][b.c].setEmpty();
     snake.pop_back();
-    snake.push_front(newFront);
-    tiles[new_f.r][new_f.c].setSnake();
+    snake.push_front(f);
+    tiles[f.r][f.c].setSnake();
 }
 
 void Board::moveSnake(){

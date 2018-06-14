@@ -4,7 +4,7 @@
 class Tile {
     bool isSnake = false;
 public:
-    Tile();
+    Tile() {}
     void setSnake() {
         isSnake = true;
     }

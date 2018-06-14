@@ -3,7 +3,7 @@
 
 #include <ncurses.h>
 
-enum Input { UP = -1, DOWN = 1, LEFT = -1, RIGHT = 1, QUIT, INVALID = 0};
+enum Input {UP = 0, DOWN, LEFT, RIGHT, QUIT, INVALID};
 
 Input charToInput(int in){
     switch(in){

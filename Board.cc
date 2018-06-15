@@ -10,8 +10,8 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
     }
     direction.store(INVALID);
     int i = 0;
-    for (int r = 0; r < tiles.size(); r++) {
-        for (int c = 0; c < tiles[0].size(); c++) {
+    for (int r = 0; r < height; r++) {
+        for (int c = 0; c < width; c++) {
             snake.push_front({r, c});
             tiles[r][c].setSnake();
             ++i;

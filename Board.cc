@@ -1,5 +1,6 @@
 #include "Board.h"
 
+#include <algorithm>
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -24,32 +25,55 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
 
 //private helper functions:
 
+void Board::shiftUp(Pos& p) {
+    --p.c;
+    p.c = (p.c + width) % width;
+}
+
+void Board::shiftDown(Pos& p) {
+    ++p.c;
+    p.c = (p.c + width) % width;
+}
+
+void Board::shiftLeft(Pos& p) {
+    --p.r;
+    p.r = (p.r + height) % height;
+}
+
+void Board::shiftRight(Pos& p) {
+    ++p.r;
+    p.r = (p.r + height) % height;
+}
+
 //public functions:
 
 void Board::advanceSnake(){
     Input dir = direction.load();
     Pos f = snake.front();
     switch(dir){
-        case LEFT:
-            --f.c;
-            break;	
-        case RIGHT:
-            ++f.c;
-            break;
         case UP:
-            --f.r;
+            shiftUp(f);
             break;
         case DOWN:
-            ++f.r;
+            shiftDown(f);
+            break;
+        case LEFT:
+            shiftLeft(f);
+            break;	
+        case RIGHT:
+            shiftRight(f);
             break;
         case INVALID: 
         case QUIT: return;
     }
-    f.r = (f.r + height) % height;
-    f.c = (f.c + width) % width;
     Pos b = snake.back();
-    tiles[b.r][b.c].setEmpty();
     snake.pop_back();
+    
+    //not overlapping:
+    if (std::find(snake.begin(), snake.end(), b) == snake.end()) {
+        tiles[b.r][b.c].setEmpty();
+    }
+    
     snake.push_front(f);
     tiles[f.r][f.c].setSnake();
 }

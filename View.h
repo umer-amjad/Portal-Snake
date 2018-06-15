@@ -13,7 +13,7 @@ class View {
     std::atomic_bool game_over;
 public:
     View(int height, int width, Board* board, int speed); //speed is in fps
-    
+
     void refreshScreen();
     void displayScreen();
 

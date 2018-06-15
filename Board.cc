@@ -5,7 +5,7 @@
 #include <chrono>
 #include <thread>
 
-Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000/speed), tiles(height){
+Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
         tiles_row = row;
@@ -20,7 +20,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
             if (i == length) break;
         }
         if (i == length) break;
-    } 
+    }
 }
 
 //private helper functions:
@@ -47,10 +47,10 @@ void Board::shiftRight(Pos& p) {
 
 //public functions:
 
-void Board::advanceSnake(){
+void Board::advanceSnake() {
     Input dir = direction.load();
     Pos f = snake.front();
-    switch(dir){
+    switch (dir) {
         case UP:
             shiftUp(f);
             break;
@@ -59,27 +59,27 @@ void Board::advanceSnake(){
             break;
         case LEFT:
             shiftLeft(f);
-            break;	
+            break;
         case RIGHT:
             shiftRight(f);
             break;
-        case INVALID: 
+        case INVALID:
         case QUIT: return;
     }
     Pos b = snake.back();
     snake.pop_back();
-    
+
     //not overlapping:
     if (std::find(snake.begin(), snake.end(), b) == snake.end()) {
         tiles[b.r][b.c].setEmpty();
     }
-    
+
     snake.push_front(f);
     tiles[f.r][f.c].setSnake();
 }
 
-void Board::moveSnake(){
-    while(true){
+void Board::moveSnake() {
+    while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
         std::lock_guard<std::mutex> guard(board_update);
         if (direction.load() == QUIT) {
@@ -89,8 +89,8 @@ void Board::moveSnake(){
     }
 }
 
-void Board::updateDirection(Input in){
-    if (in != INVALID){
+void Board::updateDirection(Input in) {
+    if (in != INVALID) {
         direction.store(in);
     }
 }

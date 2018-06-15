@@ -11,7 +11,7 @@
 
 struct Pos {
     int r;
-    int c; 
+    int c;
 };
 
 class Board {
@@ -19,7 +19,7 @@ class Board {
     const int width;
 
     std::vector<std::vector<Tile>> tiles;
-    
+
     std::deque<Pos> snake;
     std::atomic<Input> direction;
     int sleep_time; //time before moving
@@ -30,9 +30,9 @@ class Board {
     void shiftRight(Pos& p);
 
 public:
-    
+
     //width per 2 chars, height per 1 char, speed is number of moves per second 
-    Board(int h, int w, int speed, int length);    
+    Board(int h, int w, int speed, int length);
 
     void advanceSnake();
     void moveSnake();
@@ -40,9 +40,9 @@ public:
 
     int getHeight();
     int getWidth();
-    
+
     char output(int r, int c);
-    
+
     std::mutex board_update;
 };
 

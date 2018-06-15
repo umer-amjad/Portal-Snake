@@ -4,13 +4,18 @@
 class Tile {
     bool isSnake = false;
 public:
-    Tile() {}
+
+    Tile() {
+    }
+
     void setSnake() {
         isSnake = true;
     }
+
     void setEmpty() {
         isSnake = false;
     }
+
     char getOutput() {
         if (isSnake) return 'O';
         return '-';

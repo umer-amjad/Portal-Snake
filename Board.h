@@ -30,6 +30,9 @@ public:
     void advanceSnake();
     void moveSnake();
     void updateDirection(Input in);
+
+    int getHeight();
+    int getWidth();
     
     char output(int r, int c);
     

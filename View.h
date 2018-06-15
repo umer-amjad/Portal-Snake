@@ -7,16 +7,19 @@
 #include "Board.h"
 
 class View {
-    Window* game_window;
+    WINDOW* game_window;
     Board* board;
     int sleep_time;
     std::atomic_bool game_over;
 public:
     View(int height, int width, Board* board, int speed); //speed is in fps
-    Window* getWindow();
+    
     void refreshScreen();
     void displayScreen();
+
+    WINDOW* getWindow();
     void setGameOver();
+    ~View();
 };
 
 #endif /* VIEW_H */

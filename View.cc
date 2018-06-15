@@ -1,5 +1,9 @@
 #include "View.h"
 
+#include <thread>
+#include <chrono>
+#include <mutex>
+
 View::View(int height, int width, Board* board, int speed) : board(board), sleep_time(1000 / speed) {
     initscr(); //initialize n_curses 
     noecho(); //don't echo user input
@@ -18,13 +22,12 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
 
 void View::refreshScreen() {
     box(game_window, 0, 0);
-    for (int row = 0; row < screen.size(); ++row) {
-        std::vector<char>& r = screen[row];
+    for (int row = 0; row < board->getHeight(); ++row) {
         //std::string test(r.begin(), r.end());
         //mvwprintw(game_window, y, x, "%s", test.data());
         //++y;
-        for (int col = 0; col < r.size(); ++col) {
-            mvwprintw(game_window, row + 1, 2 * col + 1, "%c", board->(row, col));
+        for (int col = 0; col < board->getWidth(); ++col) {
+            mvwprintw(game_window, row + 1, 2 * col + 1, "%c", board->output(row, col));
             mvwprintw(game_window, row + 1, 2 * col + 2, "%c", ' ');
         }
     }
@@ -43,6 +46,16 @@ void View::displayScreen() {
     }
 }
 
+WINDOW* View::getWindow() {
+    return game_window;
+}
+
 void View::setGameOver(){
-    game_over.load(true);
+    game_over.store(true);
+}
+
+View::~View(){
+    clrtoeol();
+    refresh();
+    endwin();
 }

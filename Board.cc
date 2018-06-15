@@ -66,6 +66,14 @@ void Board::updateDirection(Input in){
     }
 }
 
+int Board::getHeight() {
+    return height;
+}
+
+int Board::getWidth() {
+    return width;
+}
+
 char Board::output(int r, int c){
     return tiles[r][c].getOutput();
 }

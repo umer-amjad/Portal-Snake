@@ -20,25 +20,10 @@ Input charToInput(int in){
 
 
 int main(int argc, char** argv){
-	Board b(30, 30, 10, 1);
-	//View v(30+2, 30*2+2, &b, 60);
-        Board* board = &b;
-	b.updateDirection(charToInput(KEY_RIGHT));
-	std::thread move_snake(&Board::moveSnake, &b);
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	//b.updateDirection(charToInput('q'));
-	for (int row = 0; row < board->getHeight(); ++row) {
-           for (int col = 0; col < board->getWidth(); ++col) {
-                std::cout << board->output(row, col); 
-           }
-           std::cout << std::endl;
-        }
-	std::this_thread::sleep_for(std::chrono::seconds(2));	
-        //return 0;
-
+	Board b(30, 30, 10, 15);
 	View v(30+2, 30*2+2, &b, 60);
 	std::thread refresh_t(&View::displayScreen, &v);
-	//std::thread move_snake(&Board::moveSnake, &b);
+	std::thread move_snake(&Board::moveSnake, &b);
 	while(true) {	
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		int c = wgetch(v.getWindow());

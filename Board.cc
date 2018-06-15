@@ -19,8 +19,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
             if (i == length) break;
         }
         if (i == length) break;
-    }
-    std::cout << "Sleep time " << sleep_time << " Height: " << tiles.size() << " Width: " << tiles[0].size() << std::endl;
+    } 
 }
 
 void Board::advanceSnake(){
@@ -53,7 +52,7 @@ void Board::advanceSnake(){
 
 void Board::moveSnake(){
     while(true){
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
         std::lock_guard<std::mutex> guard(board_update);
         if (direction.load() == QUIT) {
             break;
@@ -76,7 +75,6 @@ int Board::getWidth() {
     return width;
 }
 
-char Board::output(int r, int c){
-    //std::cout << "Get tile at " << r << ", " << c << std::endl;
+char Board::output(int r, int c) {
     return tiles[r][c].getOutput();
 }

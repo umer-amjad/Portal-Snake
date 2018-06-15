@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <iostream>
 
 View::View(int height, int width, Board* board, int speed) : board(board), sleep_time(1000 / speed) {
     initscr(); //initialize n_curses 
@@ -16,6 +17,7 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     game_window = newwin(height, width, starty, startx);
     keypad(game_window, TRUE);
     mvprintw(0, 0, "Use arrow keys to move. Press q to quit. Sleep time is %d", sleep_time);
+    game_over.store(false);
     refresh();
     refreshScreen();
 }
@@ -38,7 +40,9 @@ void View::refreshScreen() {
 void View::displayScreen() {
     while (true) {
         if (game_over.load()) {
-            break;
+            std::cout << "Game over!" << std::endl;
+	    std::this_thread::sleep_for(std::chrono::seconds(2));
+	    break;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
         std::lock_guard<std::mutex> guard(board->board_update);

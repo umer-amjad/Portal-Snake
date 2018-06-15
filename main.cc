@@ -26,7 +26,7 @@ int main(int argc, char** argv){
 	b.updateDirection(charToInput(KEY_RIGHT));
 	std::thread move_snake(&Board::moveSnake, &b);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	b.updateDirection(charToInput('q'));
+	//b.updateDirection(charToInput('q'));
 	for (int row = 0; row < board->getHeight(); ++row) {
            for (int col = 0; col < board->getWidth(); ++col) {
                 std::cout << board->output(row, col); 

@@ -10,8 +10,8 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     cbreak(); //pass on input directly, no need for newline or space
 
     //indent game screen:
-    int startx = 1;
-    int starty = 1;
+    int startx = 2;
+    int starty = 2;
 
     game_window = newwin(height, width, starty, startx);
     keypad(game_window, TRUE);

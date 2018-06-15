@@ -1,5 +1,6 @@
 #include "Board.h"
 
+#include <iostream>
 #include <chrono>
 #include <thread>
 
@@ -19,6 +20,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         }
         if (i == length) break;
     }
+    std::cout << "Height: " << tiles.size() << " Width: " << tiles[0].size() << std::endl;
 }
 
 void Board::advanceSnake(){
@@ -75,5 +77,6 @@ int Board::getWidth() {
 }
 
 char Board::output(int r, int c){
+    //std::cout << "Get tile at " << r << ", " << c << std::endl;
     return tiles[r][c].getOutput();
 }

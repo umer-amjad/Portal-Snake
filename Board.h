@@ -15,10 +15,10 @@ struct Pos {
 };
 
 class Board {
-    std::vector<std::vector<Tile>> tiles;
-    
     const int height;
     const int width;
+
+    std::vector<std::vector<Tile>> tiles;
     
     std::deque<Pos> snake;
     std::atomic<Input> direction;

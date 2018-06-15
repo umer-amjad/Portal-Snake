@@ -14,6 +14,8 @@ struct Pos {
     int c;
 };
 
+bool operator==(const Pos& p1, const Pos& p2);
+
 class Board {
     const int height;
     const int width;

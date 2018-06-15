@@ -5,6 +5,11 @@
 #include <chrono>
 #include <thread>
 
+bool operator==(const Pos& p1, const Pos& p2){
+    return (p1.r == p2.r) && (p1.c == p2.c);
+}
+
+
 Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
@@ -26,23 +31,23 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
 //private helper functions:
 
 void Board::shiftUp(Pos& p) {
-    --p.c;
-    p.c = (p.c + width) % width;
-}
-
-void Board::shiftDown(Pos& p) {
-    ++p.c;
-    p.c = (p.c + width) % width;
-}
-
-void Board::shiftLeft(Pos& p) {
     --p.r;
     p.r = (p.r + height) % height;
 }
 
-void Board::shiftRight(Pos& p) {
+void Board::shiftDown(Pos& p) {
     ++p.r;
     p.r = (p.r + height) % height;
+}
+
+void Board::shiftLeft(Pos& p) {
+    --p.c;
+    p.c = (p.c + width) % width;
+}
+
+void Board::shiftRight(Pos& p) {
+    ++p.c;
+    p.c = (p.c + width) % width;
 }
 
 //public functions:

@@ -15,7 +15,7 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
 
     game_window = newwin(height, width, starty, startx);
     keypad(game_window, TRUE);
-    mvprintw(0, 0, "Use arrow keys to move. Press q to quit.");
+    mvprintw(0, 0, "Use arrow keys to move. Press q to quit. Sleep time is %d", sleep_time);
     refresh();
     refreshScreen();
 }
@@ -40,7 +40,7 @@ void View::displayScreen() {
         if (game_over.load()) {
             break;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
+        std::this_thread::sleep_for(std::chrono::milliseconds(16));
         std::lock_guard<std::mutex> guard(board->board_update);
         refreshScreen();
     }

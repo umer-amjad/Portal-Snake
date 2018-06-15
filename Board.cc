@@ -22,6 +22,10 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
     } 
 }
 
+//private helper functions:
+
+//public functions:
+
 void Board::advanceSnake(){
     Input dir = direction.load();
     Pos f = snake.front();

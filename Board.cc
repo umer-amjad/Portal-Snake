@@ -18,19 +18,16 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
     int i = 0;
     int r = 0;
     int c = 0;
-    bool row_update = true;
     while (i < length) {
         tiles[r][c].setSnake();
         snake.push_front({r, c});
-        if (c == width - 1 && row_update) {
+        if ((r % 2 == 0 && c == width - 1) || 
+            (r % 2 == 1 && c == 0)) {
             ++r;
-            row_update = false;
         } else if (r % 2 == 0) {
             ++c;
-            row_update = true;
         } else {
             --c;
-            row_update = true;
         }
         ++i;
     }

@@ -20,6 +20,7 @@ class Board {
     const int height;
     const int width;
 
+    const int enlarge = 5;
     int length_buffer = 0;
 
     std::vector<std::vector<Tile>> tiles;

@@ -98,12 +98,14 @@ void Board::advanceSnake() {
     }
 
     snake.push_front(f);
-    tiles[f.r][f.c].setSnake();
 
     if (tiles[f.r][f.c].getFood()) {
-        length_buffer += 5;
+        length_buffer += enlarge;
         generateFood();
     }
+
+    tiles[f.r][f.c].setEmpty();
+    tiles[f.r][f.c].setSnake();
 }
 
 void Board::moveSnake() {

@@ -28,7 +28,7 @@ public:
 
     char getOutput() {
         if (isSnake) return 'O';
-	if (isFood) return 'X';
+	if (isFood) return 'S';
         return '-';
     }
 };

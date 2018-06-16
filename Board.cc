@@ -38,10 +38,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         }
         ++i;
     }
-    portals.insert({{5, 5}, {15, 15}});
-    portals.insert({{15, 15}, {5, 5}});
-    tiles[5][5].setPortal();
-    tiles[15][15].setPortal();
+    createPortal({5, 5}, {15, 15});
     generateFood();
 }
 
@@ -94,6 +91,13 @@ void Board::generateFood() {
             break;
         }
     }
+}
+
+void Board::createPortal(const Pos& enter, const Pos& exit) {
+    portals[enter] = exit;
+    portals[exit] = enter;
+    tiles[enter.r][enter.c].setPortal();
+    tiles[exit.r][exit.c].setPortal();
 }
 
 //public functions:

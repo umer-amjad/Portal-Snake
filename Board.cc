@@ -31,6 +31,9 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         }
         ++i;
     }
+    portals.push_back({{5, 5}, {15, 15}});
+    tiles[5][5].setPortal();
+    tiles[15][15].setPortal();
     generateFood();
 }
 
@@ -60,8 +63,7 @@ void Board::generateFood() {
     while (true) {
         int rand_r = rand() % height; 
         int rand_c = rand() % width;
-	Pos p{rand_r, rand_c};
-        if (std::find(snake.begin(), snake.end(), p) == snake.end()) {
+        if (!tiles[rand_r][rand_c].getSnake() && !tiles[rand_r][rand_c].getPortal()) {
             tiles[rand_r][rand_c].setFood();
             break;
         }

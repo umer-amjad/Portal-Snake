@@ -5,6 +5,8 @@
 #include <deque>
 #include <atomic>
 #include <mutex>
+#include <utility>
+#include <set>
 
 #include "Input.h"
 #include "Tile.h"
@@ -15,6 +17,8 @@ struct Pos {
 };
 
 bool operator==(const Pos& p1, const Pos& p2);
+
+typedef std::pair<Pos, Pos> Portal;
 
 class Board {
     const int height;
@@ -28,6 +32,8 @@ class Board {
     std::deque<Pos> snake;
     std::atomic<Input> direction;
     int sleep_time; //time before moving
+
+    std::vector<Portal> portals;
 
     void shiftUp(Pos& p);
     void shiftDown(Pos& p);

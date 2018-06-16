@@ -4,6 +4,7 @@
 class Tile {
     bool isSnake = false;
     bool isFood = false;
+    bool isPortal = false;
 public:
 
     Tile() {
@@ -11,6 +12,10 @@ public:
 
     void setSnake() {
         isSnake = true;
+    }
+
+    bool getSnake() {
+        return isSnake;
     }
 
     void setFood() {
@@ -21,6 +26,14 @@ public:
         return isFood;
     }
 
+    void setPortal() {
+        isPortal = true;
+    }
+
+    bool getPortal() {
+        return isPortal;
+    }
+
     void setEmpty() {
         isSnake = false;
         isFood = false;
@@ -28,7 +41,8 @@ public:
 
     char getOutput() {
         if (isSnake) return 'O';
-	if (isFood) return 'S';
+        if (isPortal) return 'X';
+	if (isFood) return 'F';
         return '-';
     }
 };

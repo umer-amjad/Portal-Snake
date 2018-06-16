@@ -84,18 +84,24 @@ void Board::advanceSnake() {
         case INVALID:
         case QUIT: return;
     }
-    Pos b = snake.back();
-    snake.pop_back();
+    
+    if (length_buffer == 0) {
+        Pos b = snake.back();
+        snake.pop_back();
 
-    //not overlapping:
-    if (std::find(snake.begin(), snake.end(), b) == snake.end()) {
-        tiles[b.r][b.c].setEmpty();
+        //not overlapping:
+        if (std::find(snake.begin(), snake.end(), b) == snake.end()) {
+            tiles[b.r][b.c].setEmpty();
+        }
+    } else {
+        --length_buffer;
     }
 
     snake.push_front(f);
     tiles[f.r][f.c].setSnake();
 
     if (tiles[f.r][f.c].getFood()) {
+        length_buffer += 5;
         generateFood();
     }
 }

@@ -26,6 +26,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         }
         if (i == length) break;
     }
+    generateFood();
 }
 
 //private helper functions:
@@ -48,6 +49,18 @@ void Board::shiftLeft(Pos& p) {
 void Board::shiftRight(Pos& p) {
     ++p.c;
     p.c = (p.c + width) % width;
+}
+
+void Board::generateFood() {
+    while (true) {
+        int rand_r = rand() % height; 
+        int rand_c = rand() % width;
+	Pos p{rand_r, rand_c};
+        if (std::find(snake.begin(), snake.end(), p) == snake.end()) {
+            tiles[rand_r][rand_c].setFood();
+            break;
+        }
+    }
 }
 
 //public functions:
@@ -81,6 +94,10 @@ void Board::advanceSnake() {
 
     snake.push_front(f);
     tiles[f.r][f.c].setSnake();
+
+    if (tiles[f.r][f.c].getFood()) {
+        generateFood();
+    }
 }
 
 void Board::moveSnake() {

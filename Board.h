@@ -31,6 +31,8 @@ class Board {
     void shiftLeft(Pos& p);
     void shiftRight(Pos& p);
 
+    void generateFood();
+
 public:
 
     //width per 2 chars, height per 1 char, speed is number of moves per second 

@@ -16,14 +16,23 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
     }
     direction.store(INVALID);
     int i = 0;
-    for (int r = 0; r < height; r++) {
-        for (int c = 0; c < width; c++) {
-            snake.push_front({r, c});
-            tiles[r][c].setSnake();
-            ++i;
-            if (i == length) break;
+    int r = 0;
+    int c = 0;
+    bool row_update = true;
+    while (i < length) {
+        tiles[r][c].setSnake();
+        snake.push_front({r, c});
+        if (c == width - 1 && row_update) {
+            ++r;
+            row_update = false;
+        } else if (r % 2 == 0) {
+            ++c;
+            row_update = true;
+        } else {
+            --c;
+            row_update = true;
         }
-        if (i == length) break;
+        ++i;
     }
     generateFood();
 }

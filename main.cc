@@ -19,7 +19,7 @@ Input charToInput(int in) {
 }
 
 int main(int argc, char** argv) {
-    Board b(30, 30, 10, 36);
+    Board b(30, 30, 10, 5);
     View v(30 + 2, 30 * 2 + 2, &b, 60);
     std::thread refresh_t(&View::displayScreen, &v);
     std::thread move_snake(&Board::moveSnake, &b);

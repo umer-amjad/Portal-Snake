@@ -9,6 +9,13 @@ bool operator==(const Pos& p1, const Pos& p2){
     return (p1.r == p2.r) && (p1.c == p2.c);
 }
 
+bool operator<(const Pos& p1, const Pos& p2) {
+    if (p1.r == p2.r) {
+        return p1.c < p2.c;
+    }
+    return p1.r < p2.r;
+}
+
 Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
@@ -31,7 +38,8 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         }
         ++i;
     }
-    portals.push_back({{5, 5}, {15, 15}});
+    portals.insert({{5, 5}, {15, 15}});
+    portals.insert({{15, 15}, {5, 5}});
     tiles[5][5].setPortal();
     tiles[15][15].setPortal();
     generateFood();
@@ -42,21 +50,39 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
 void Board::shiftUp(Pos& p) {
     --p.r;
     p.r = (p.r + height) % height;
+    if (tiles[p.r][p.c].getPortal()) {
+        p = portals[p];
+        shiftUp(p);
+    }
 }
 
 void Board::shiftDown(Pos& p) {
     ++p.r;
     p.r = (p.r + height) % height;
+    if (tiles[p.r][p.c].getPortal()) {
+        p = portals[p];
+        shiftDown(p);
+    }
 }
 
 void Board::shiftLeft(Pos& p) {
     --p.c;
     p.c = (p.c + width) % width;
+    if (tiles[p.r][p.c].getPortal()) {
+        p = portals[p];
+        shiftLeft(p);
+    }
+
 }
 
 void Board::shiftRight(Pos& p) {
     ++p.c;
     p.c = (p.c + width) % width;
+    if (tiles[p.r][p.c].getPortal()) {
+        p = portals[p];
+        shiftRight(p);
+    }
+
 }
 
 void Board::generateFood() {

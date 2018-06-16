@@ -9,7 +9,6 @@ bool operator==(const Pos& p1, const Pos& p2){
     return (p1.r == p2.r) && (p1.c == p2.c);
 }
 
-
 Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
@@ -84,6 +83,11 @@ void Board::advanceSnake() {
         case INVALID:
         case QUIT: return;
     }
+
+    if (std::find(snake.begin(), snake.end(), f) != snake.end()) {
+        direction.store(QUIT);
+        return;
+    }
     
     if (length_buffer == 0) {
         Pos b = snake.back();
@@ -123,6 +127,10 @@ void Board::updateDirection(Input in) {
     if (in != INVALID) {
         direction.store(in);
     }
+}
+
+bool Board::isGameOver() {
+    return (direction.load() == QUIT);
 }
 
 int Board::getHeight() {

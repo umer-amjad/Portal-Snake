@@ -44,6 +44,7 @@ public:
     void advanceSnake();
     void moveSnake();
     void updateDirection(Input in);
+    bool isGameOver();
 
     int getHeight();
     int getWidth();

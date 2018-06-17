@@ -165,6 +165,13 @@ void Board::moveSnake() {
 
 void Board::updateDirection(Input in) {
     if (in != INVALID) {
+        Input cur = direction.load();
+        if ((cur == UP && in == DOWN) || 
+            (cur == DOWN && in == UP) ||
+            (cur == LEFT && in == RIGHT) ||
+            (cur == RIGHT && in == LEFT)) {
+            return;
+        }
         direction.store(in);
     }
 }

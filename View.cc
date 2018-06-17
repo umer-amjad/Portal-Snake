@@ -8,7 +8,9 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     initscr(); //initialize n_curses 
     noecho(); //don't echo user input
     cbreak(); //pass on input directly, no need for newline or space
-
+    start_color();			/* Start color 			*/
+    init_pair(1, COLOR_RED, COLOR_WHITE);
+    
     //indent game screen:
     int startx = 2;
     int starty = 2;
@@ -16,6 +18,10 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     game_window = newwin(height, width, starty, startx);
     keypad(game_window, TRUE);
     mvprintw(0, 0, "Use arrow keys to move. Press q to quit.");
+
+    start_color();                      /* Start color                  */
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    
     game_over.store(false);
     refresh();
     refreshScreen();
@@ -25,7 +31,14 @@ void View::refreshScreen() {
     box(game_window, 0, 0);
     for (int row = 0; row < board->getHeight(); ++row) {
         for (int col = 0; col < board->getWidth(); ++col) {
-            mvwprintw(game_window, row + 1, 2 * col + 1, "%c", board->output(row, col));
+            char out = board->output(row, col);
+            if (out < 8) { //is portal
+                wattron(game_window, COLOR_PAIR(out));
+                mvwprintw(game_window, row + 1, 2 * col + 1, "%c", 'X');
+                wattroff(game_window, COLOR_PAIR(1));
+            } else {
+                mvwprintw(game_window, row + 1, 2 * col + 1, "%c", out);
+            }
             mvwprintw(game_window, row + 1, 2 * col + 2, "%c", ' ');
         }
     }

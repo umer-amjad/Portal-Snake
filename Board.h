@@ -45,7 +45,7 @@ class Board {
 
     void generateFood();
 
-    void createPortal(const Pos& enter, const Pos& exit);
+    void createPortal(const Pos& enter, const Pos& exit, const int pair_num);
 
 public:
 

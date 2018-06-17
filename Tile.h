@@ -4,7 +4,7 @@
 class Tile {
     bool isSnake = false;
     bool isFood = false;
-    bool isPortal = false;
+    int portal = 0;
 public:
 
     Tile() {
@@ -26,12 +26,12 @@ public:
         return isFood;
     }
 
-    void setPortal() {
-        isPortal = true;
+    void setPortal(int pair_num) {
+        portal = pair_num;
     }
 
     bool getPortal() {
-        return isPortal;
+        return portal > 0;
     }
 
     void setEmpty() {
@@ -41,7 +41,7 @@ public:
 
     char getOutput() {
         if (isSnake) return 'O';
-        if (isPortal) return 'X';
+        if (portal > 0) return portal;
 	if (isFood) return 'F';
         return '-';
     }

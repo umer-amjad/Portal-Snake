@@ -38,10 +38,14 @@ Board::Board(int h, int w, int speed, int length, int enlargement, std::set<std:
         }
         ++i;
     }
+    int pair_num = 1;
     for (const auto& portal : portal_pairs) {
-        createPortal(portal.first, portal.second);
+        createPortal(portal.first, portal.second, pair_num);
+        ++pair_num;
+        if (pair_num == 8) {
+            pair_num = 1;
+        }
     }
-    createPortal({5, 5}, {15, 15});
     srand(time(0)); //initialize seed for RNG
     generateFood();
 }
@@ -95,11 +99,11 @@ void Board::generateFood() {
     }
 }
 
-void Board::createPortal(const Pos& enter, const Pos& exit) {
+void Board::createPortal(const Pos& enter, const Pos& exit, const int pair_num) {
     portals[enter] = exit;
     portals[exit] = enter;
-    tiles[enter.r][enter.c].setPortal();
-    tiles[exit.r][exit.c].setPortal();
+    tiles[enter.r][enter.c].setPortal(pair_num);
+    tiles[exit.r][exit.c].setPortal(pair_num);
 }
 
 //public functions:

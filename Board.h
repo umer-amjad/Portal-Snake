@@ -7,6 +7,7 @@
 #include <mutex>
 #include <utility>
 #include <map>
+#include <set>
 
 #include "Input.h"
 #include "Tile.h"
@@ -26,7 +27,7 @@ class Board {
     const int height;
     const int width;
 
-    const int enlarge = 5;
+    const int enlarge;
     int length_buffer = 0;
 
     std::vector<std::vector<Tile>> tiles;
@@ -49,7 +50,7 @@ class Board {
 public:
 
     //width per 2 chars, height per 1 char, speed is number of moves per second 
-    Board(int h, int w, int speed, int length);
+    Board(int h, int w, int speed, int length, int enlargement, std::set<std::pair<Portal, Portal>> portal_pairs);
 
     void advanceSnake();
     void moveSnake();

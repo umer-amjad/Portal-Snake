@@ -16,7 +16,7 @@ bool operator<(const Pos& p1, const Pos& p2) {
     return p1.r < p2.r;
 }
 
-Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_time(1000 / speed), tiles(height) {
+Board::Board(int h, int w, int speed, int length, int enlargement, std::set<std::pair<Portal, Portal>> portal_pairs) : height(h), width(w), enlarge(enlargement), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
         tiles_row = row;
@@ -37,6 +37,9 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
             --c;
         }
         ++i;
+    }
+    for (const auto& portal : portal_pairs) {
+        createPortal(portal.first, portal.second);
     }
     createPortal({5, 5}, {15, 15});
     srand(time(0)); //initialize seed for RNG
@@ -70,7 +73,6 @@ void Board::shiftLeft(Pos& p) {
         p = portals[p];
         shiftLeft(p);
     }
-
 }
 
 void Board::shiftRight(Pos& p) {
@@ -80,7 +82,6 @@ void Board::shiftRight(Pos& p) {
         p = portals[p];
         shiftRight(p);
     }
-
 }
 
 void Board::generateFood() {

@@ -8,9 +8,7 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     initscr(); //initialize n_curses 
     noecho(); //don't echo user input
     cbreak(); //pass on input directly, no need for newline or space
-    start_color();			/* Start color 			*/
-    init_pair(1, COLOR_RED, COLOR_WHITE);
-    
+        
     //indent game screen:
     int startx = 2;
     int starty = 2;
@@ -21,6 +19,7 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
 
     start_color();                      /* Start color                  */
     init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
     
     game_over.store(false);
     refresh();

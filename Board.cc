@@ -39,6 +39,7 @@ Board::Board(int h, int w, int speed, int length) : height(h), width(w), sleep_t
         ++i;
     }
     createPortal({5, 5}, {15, 15});
+    srand(time(0)); //initialize seed for RNG
     generateFood();
 }
 

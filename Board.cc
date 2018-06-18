@@ -42,7 +42,7 @@ Board::Board(int h, int w, int speed, int length, int enlargement, std::set<std:
     for (const auto& portal : portal_pairs) {
         createPortal(portal.first, portal.second, pair_num);
         ++pair_num;
-        if (pair_num == 8) {
+        if (pair_num == 7) {
             pair_num = 1;
         }
     }
@@ -53,6 +53,7 @@ Board::Board(int h, int w, int speed, int length, int enlargement, std::set<std:
 //private helper functions:
 
 void Board::shiftUp(Pos& p) {
+    if (p.r == 0 && borders_on) return;
     --p.r;
     p.r = (p.r + height) % height;
     if (tiles[p.r][p.c].getPortal()) {
@@ -62,6 +63,7 @@ void Board::shiftUp(Pos& p) {
 }
 
 void Board::shiftDown(Pos& p) {
+    if (p.r == height - 1 && borders_on) return;
     ++p.r;
     p.r = (p.r + height) % height;
     if (tiles[p.r][p.c].getPortal()) {
@@ -71,6 +73,7 @@ void Board::shiftDown(Pos& p) {
 }
 
 void Board::shiftLeft(Pos& p) {
+   if (p.c == 0 && borders_on) return;
     --p.c;
     p.c = (p.c + width) % width;
     if (tiles[p.r][p.c].getPortal()) {
@@ -80,6 +83,7 @@ void Board::shiftLeft(Pos& p) {
 }
 
 void Board::shiftRight(Pos& p) {
+   if (p.c == width - 1 && borders_on) return;
     ++p.c;
     p.c = (p.c + width) % width;
     if (tiles[p.r][p.c].getPortal()) {

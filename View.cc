@@ -18,8 +18,9 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     mvprintw(0, 0, "Use arrow keys to move. Press q to quit.");
 
     start_color();                      /* Start color                  */
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    for (int i = 1; i < 8; ++i) {
+        init_pair(i, i, COLOR_BLACK);
+    }
     
     game_over.store(false);
     refresh();

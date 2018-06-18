@@ -30,6 +30,8 @@ class Board {
     const int enlarge;
     int length_buffer = 0;
 
+    bool borders_on = true;
+
     std::vector<std::vector<Tile>> tiles;
 
     std::deque<Pos> snake;

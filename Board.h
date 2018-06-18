@@ -52,7 +52,7 @@ class Board {
 public:
 
     //width per 2 chars, height per 1 char, speed is number of moves per second 
-    Board(int h, int w, int speed, int length, int enlargement, std::set<std::pair<Portal, Portal>> portal_pairs);
+    Board(int h, int w, int speed, int length, int enlargement, bool borders_on, std::set<std::pair<Portal, Portal>> portal_pairs);
 
     void advanceSnake();
     void moveSnake();

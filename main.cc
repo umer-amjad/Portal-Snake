@@ -19,7 +19,7 @@ Input charToInput(int in) {
 }
 
 int main(int argc, char** argv) {
-    Board b(30, 40, 10, 5, 1, {{{5, 5}, {15, 15}}, {{25, 5}, {25, 15}}});
+    Board b(30, 40, 10, 5, 1, {{{5, 5}, {15, 15}}, {{25, 5}, {16, 15}},  {{10, 35}, {15, 14}}, {{25, 25}, {14, 15}}, {{5, 15}, {15, 16}}});
     View v(30 + 2, 40 * 2 + 2, &b, 60);
     std::thread refresh_t(&View::displayScreen, &v);
     std::thread move_snake(&Board::moveSnake, &b);

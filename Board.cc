@@ -153,6 +153,7 @@ void Board::advanceSnake() {
 
     if (tiles[f.r][f.c].getFood()) {
         length_buffer += enlarge;
+        score += 10;
         generateFood();
     }
 
@@ -199,3 +200,7 @@ int Board::getWidth() {
 char Board::output(int r, int c) {
     return tiles[r][c].getOutput();
 }
+
+int Board::getScore() {
+    return score;
+} 

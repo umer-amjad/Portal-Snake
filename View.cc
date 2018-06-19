@@ -10,8 +10,8 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     cbreak(); //pass on input directly, no need for newline or space
         
     //indent game screen:
-    int startx = 2;
-    int starty = 2;
+    int startx = 1;
+    int starty = 1;
 
     game_window = newwin(height, width, starty, startx);
     keypad(game_window, TRUE);
@@ -45,6 +45,7 @@ void View::refreshScreen() {
             mvwprintw(game_window, row + 1, 2 * col + 2, "%c", ' ');
         }
     }
+    mvprintw(board->getHeight() + 3, 0, "Score: %d", board->getScore());
     wrefresh(game_window);
     refresh();
 }

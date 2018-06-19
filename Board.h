@@ -33,6 +33,8 @@ class Board {
     const bool borders_on;
     const bool invincible;
 
+    int score = 0;
+
     std::vector<std::vector<Tile>> tiles;
 
     std::deque<Pos> snake;
@@ -64,6 +66,7 @@ public:
     int getWidth();
 
     char output(int r, int c);
+    int getScore();
 
     std::mutex board_update;
 };

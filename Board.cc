@@ -16,7 +16,7 @@ bool operator<(const Pos& p1, const Pos& p2) {
     return p1.r < p2.r;
 }
 
-Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_on, std::set<std::pair<Portal, Portal>> portal_pairs) : height(h), width(w), enlarge(enlargement), borders_on(borders_on), sleep_time(1000 / speed), tiles(height) {
+Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_on, bool invincible, std::set<std::pair<Portal, Portal>> portal_pairs) : height(h), width(w), enlarge(enlargement), borders_on(borders_on), invincible(invincible), sleep_time(1000 / speed), tiles(height) {
     std::vector<Tile> row(width);
     for (auto& tiles_row : tiles) {
         tiles_row = row;
@@ -132,7 +132,7 @@ void Board::advanceSnake() {
         case QUIT: return;
     }
 
-    if (std::find(snake.begin(), snake.end(), f) != snake.end()) {
+    if (!invincible && tiles[f.r][f.c].getSnake()) {
         direction.store(QUIT);
         return;
     }

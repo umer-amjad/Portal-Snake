@@ -29,6 +29,9 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
 
 void View::refreshScreen() {
     box(game_window, 0, 0);
+    if (board->isGameOver()) {
+        mvprintw(0, 0, "You lose! Press any key to exit the game.");
+    }
     for (int row = 0; row < board->getHeight(); ++row) {
         for (int col = 0; col < board->getWidth(); ++col) {
             char out = board->output(row, col);

@@ -30,7 +30,8 @@ class Board {
     const int enlarge;
     int length_buffer = 0;
 
-    bool borders_on = true;
+    const bool borders_on;
+    const bool invincible;
 
     std::vector<std::vector<Tile>> tiles;
 
@@ -52,7 +53,7 @@ class Board {
 public:
 
     //width per 2 chars, height per 1 char, speed is number of moves per second 
-    Board(int h, int w, int speed, int length, int enlargement, bool borders_on, std::set<std::pair<Portal, Portal>> portal_pairs);
+    Board(int h, int w, int speed, int length, int enlargement, bool borders_on, bool invincible, std::set<std::pair<Portal, Portal>> portal_pairs);
 
     void advanceSnake();
     void moveSnake();

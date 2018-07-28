@@ -19,9 +19,22 @@ Input charToInput(int in) {
 }
 
 int main(int argc, char** argv) {
-    Board b(30, 40, 10, 5, 1, false, false, {{{5, 5}, {15, 15}}, {{25, 5}, {16, 15}},  {{10, 35}, {15, 14}}, {{25, 25}, {14, 15}}, {{5, 15}, {15, 16}}});
-    View v(30 + 2, 40 * 2 + 2, &b, 60);
-    std::thread refresh_t(&View::displayScreen, &v);
+    int height = 30;
+    int width = 40;
+    int speed = 11;
+    int starting_length = 3;
+    int enlargement = 1;
+    bool borders_on = false;
+    bool invincible = false;
+    int fps = 60;
+    std::set<std::pair<Portal, Portal>> portals = {{{5, 5}, {15, 15}},
+            {{25, 5}, {16, 15}},  
+            {{10, 35}, {15, 14}}, 
+            {{25, 25}, {14, 15}}, 
+            {{5, 15}, {15, 16}}};
+    Board b(height, width, speed, starting_length, enlargement, borders_on, invincible, portals);
+    View v(height + 2, width * 2 + 2, &b, fps);
+    std::thread refresh_screen(&View::displayScreen, &v);
     std::thread move_snake(&Board::moveSnake, &b);
 
     while (true) {
@@ -41,7 +54,7 @@ int main(int argc, char** argv) {
             break;
         }
     }
-    refresh_t.join();
+    refresh_screen.join();
     move_snake.join();
     std::cout << " You lose!" << std::endl;
     return 0;

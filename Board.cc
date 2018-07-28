@@ -114,25 +114,25 @@ void Board::createPortal(const Pos& enter, const Pos& exit, const int pair_num) 
 
 void Board::advanceSnake() {
     Input dir = direction.load();
-    Pos f = snake.front();
+    Pos new_front = snake.front();
     switch (dir) {
         case UP:
-            shiftUp(f);
+            shiftUp(new_front);
             break;
         case DOWN:
-            shiftDown(f);
+            shiftDown(new_front);
             break;
         case LEFT:
-            shiftLeft(f);
+            shiftLeft(new_front);
             break;
         case RIGHT:
-            shiftRight(f);
+            shiftRight(new_front);
             break;
         case INVALID:
         case QUIT: return;
     }
 
-    if (!invincible && tiles[f.r][f.c].getSnake()) {
+    if (!invincible && tiles[new_front.r][new_front.c].getSnake()) {
         direction.store(QUIT);
         return;
     }
@@ -149,16 +149,15 @@ void Board::advanceSnake() {
         --length_buffer;
     }
 
-    snake.push_front(f);
+    snake.push_front(new_front);
 
-    if (tiles[f.r][f.c].getFood()) {
+    if (tiles[new_front.r][new_front.c].getFood()) {
         length_buffer += enlarge;
         score += 10;
         generateFood();
     }
-
-    tiles[f.r][f.c].setEmpty();
-    tiles[f.r][f.c].setSnake();
+    
+    tiles[new_front.r][new_front.c].setSnake();
 }
 
 void Board::moveSnake() {

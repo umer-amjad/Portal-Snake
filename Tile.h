@@ -12,6 +12,7 @@ public:
 
     void setSnake() {
         isSnake = true;
+        isFood = false;
     }
 
     bool getSnake() {

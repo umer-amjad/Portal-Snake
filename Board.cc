@@ -27,6 +27,7 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
     int c = 0;
     while (i < length) {
         tiles[r][c].setSnake();
+        tiles[r][c].pos = {r, c};
         snake.push_front({r, c});
         if ((r % 2 == 0 && c == width - 1) || 
             (r % 2 == 1 && c == 0)) {
@@ -96,7 +97,7 @@ void Board::generateFood() {
     while (true) {
         int rand_r = rand() % height; 
         int rand_c = rand() % width;
-        if (!tiles[rand_r][rand_c].getSnake() && !tiles[rand_r][rand_c].getPortal()) {
+        if (!tiles[rand_r][rand_c].isSnake() && !tiles[rand_r][rand_c].getPortal()) {
             tiles[rand_r][rand_c].setFood();
             break;
         }
@@ -132,7 +133,7 @@ void Board::advanceSnake() {
         case QUIT: return;
     }
 
-    if (!invincible && tiles[new_front.r][new_front.c].getSnake()) {
+    if (!invincible && tiles[new_front.r][new_front.c].isSnake()) {
         direction.store(QUIT);
         return;
     }
@@ -142,16 +143,14 @@ void Board::advanceSnake() {
         snake.pop_back();
 
         //not overlapping:
-        if (std::find(snake.begin(), snake.end(), b) == snake.end()) {
-            tiles[b.r][b.c].setEmpty();
-        }
+        tiles[b.r][b.c].setEmpty();
     } else {
         --length_buffer;
     }
 
     snake.push_front(new_front);
 
-    if (tiles[new_front.r][new_front.c].getFood()) {
+    if (tiles[new_front.r][new_front.c].isFood()) {
         length_buffer += enlarge;
         score += 10;
         generateFood();

@@ -1,30 +1,38 @@
 #ifndef TILE_H
 #define TILE_H
 
+struct Pos {
+    int r;
+    int c;
+};
+
 class Tile {
-    bool isSnake = false;
-    bool isFood = false;
+    //snake may overlap with itself many times
+    //snake count keeps track 
+    int snakeCount = 0; 
+    bool food = false;
     int portal = 0;
 public:
-
+    Pos pos;
+    
     Tile() {
     }
-
+    
     void setSnake() {
-        isSnake = true;
-        isFood = false;
+        snakeCount++;
+        food = false;
     }
 
-    bool getSnake() {
-        return isSnake;
+    bool isSnake() {
+        return (snakeCount > 0);
     }
 
     void setFood() {
-        isFood = true;
+        food = true;
     }
 
-    bool getFood() {
-        return isFood;
+    bool isFood() {
+        return food;
     }
 
     void setPortal(int pair_num) {
@@ -36,14 +44,14 @@ public:
     }
 
     void setEmpty() {
-        isSnake = false;
-        isFood = false;
+        snakeCount--;
+        food = false;
     }
 
     char getOutput() {
-        if (isSnake) return 'O';
+        if (snakeCount > 0) return 'O';
         if (portal > 0) return portal;
-	if (isFood) return 'F';
+	if (food) return 'F';
         return '-';
     }
 };

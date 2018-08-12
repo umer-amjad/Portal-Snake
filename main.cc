@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     int starting_length = 3;
     int enlargement = 1;
     bool borders_on = false;
-    bool invincible = false;
+    bool invincible = true;
     int fps = 60;
     std::set<std::pair<Portal, Portal>> portals = {{{5, 5}, {15, 15}},
             {{25, 5}, {16, 15}},  

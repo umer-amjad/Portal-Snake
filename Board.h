@@ -12,11 +12,6 @@
 #include "Input.h"
 #include "Tile.h"
 
-struct Pos {
-    int r;
-    int c;
-};
-
 bool operator==(const Pos& p1, const Pos& p2);
 
 bool operator<(const Pos& p1, const Pos& p2);

@@ -5,6 +5,8 @@
 #include <chrono>
 #include <thread>
 
+std::list<Pos> Tile::updated{};
+
 bool operator==(const Pos& p1, const Pos& p2){
     return (p1.r == p2.r) && (p1.c == p2.c);
 }
@@ -21,13 +23,17 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
     for (auto& tiles_row : tiles) {
         tiles_row = row;
     }
+    for (int r = 0; r < height; ++r) {
+        for (int c = 0; c < width; ++c) {
+            tiles[r][c].pos = {r, c};
+        }
+    }
     direction.store(INVALID);
     int i = 0;
     int r = 0;
     int c = 0;
     while (i < length) {
         tiles[r][c].setSnake();
-        tiles[r][c].pos = {r, c};
         snake.push_front({r, c});
         if ((r % 2 == 0 && c == width - 1) || 
             (r % 2 == 1 && c == 0)) {

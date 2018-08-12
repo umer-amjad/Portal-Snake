@@ -1,6 +1,8 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <list>
+
 struct Pos {
     int r;
     int c;
@@ -14,6 +16,7 @@ class Tile {
     int portal = 0;
 public:
     Pos pos;
+    static std::list<Pos> updated;
     
     Tile() {
     }
@@ -21,6 +24,7 @@ public:
     void setSnake() {
         snakeCount++;
         food = false;
+        updated.push_back(pos);
     }
 
     bool isSnake() {
@@ -29,6 +33,7 @@ public:
 
     void setFood() {
         food = true;
+        updated.push_back(pos);
     }
 
     bool isFood() {
@@ -37,6 +42,7 @@ public:
 
     void setPortal(int pair_num) {
         portal = pair_num;
+        updated.push_back(pos);
     }
 
     bool getPortal() {
@@ -46,6 +52,7 @@ public:
     void setEmpty() {
         snakeCount--;
         food = false;
+        updated.push_back(pos);
     }
 
     char getOutput() {

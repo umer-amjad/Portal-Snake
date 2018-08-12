@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
             {{25, 25}, {14, 15}}, 
             {{5, 15}, {15, 16}}};
     Board b(height, width, speed, starting_length, enlargement, borders_on, invincible, portals);
-    View v(height + 2, width * 2 + 2, &b, fps);
+    View v(height, width, &b, fps);
     std::thread refresh_screen(&View::displayScreen, &v);
     std::thread move_snake(&Board::moveSnake, &b);
 

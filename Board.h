@@ -34,6 +34,7 @@ class Board {
 
     std::deque<Pos> snake;
     std::atomic<Input> direction;
+    std::atomic<Input> last_direction;
     int sleep_time; //time before moving
 
     std::map<Portal, Portal> portals;

@@ -29,11 +29,12 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
         }
     }
     direction.store(INVALID);
+    last_direction.store(INVALID);
     int i = 0;
     int r = 0;
     int c = 0;
     while (i < length) {
-        tiles[r][c].setSnake();
+        tiles[r][c].setSnake(); 
         snake.push_front({r, c});
         if ((r % 2 == 0 && c == width - 1) || 
             (r % 2 == 1 && c == 0)) {
@@ -160,6 +161,7 @@ void Board::advanceSnake() {
     }
     
     tiles[new_front.r][new_front.c].setSnake();
+    last_direction.store(dir);
 }
 
 void Board::moveSnake() {
@@ -175,7 +177,7 @@ void Board::moveSnake() {
 
 void Board::updateDirection(Input in) {
     if (in != INVALID) {
-        Input cur = direction.load();
+        Input cur = last_direction.load();
         if ((cur == UP && in == DOWN) || 
             (cur == DOWN && in == UP) ||
             (cur == LEFT && in == RIGHT) ||

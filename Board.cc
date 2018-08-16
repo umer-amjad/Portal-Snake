@@ -45,13 +45,10 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
         }
         ++i;
     }
-    int pair_num = 1;
+    int pair_num = 0;
     for (const auto& portal : portal_pairs) {
-        createPortal(portal.first, portal.second, pair_num);
+        createPortal(portal.first, portal.second, (pair_num % 8) + 1);
         ++pair_num;
-        if (pair_num == 7) {
-            pair_num = 1;
-        }
     }
     srand(time(0)); //initialize seed for RNG
     generateFood();

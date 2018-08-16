@@ -15,7 +15,7 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
 
     game_window = newwin(height + 2, 2 * width + 2, starty, startx);
     keypad(game_window, TRUE);
-    mvprintw(0, 0, "Use arrow keys to move. Press q to quit.");
+    mvprintw(0, 0, "Use arrow keys to move. Press p to pause/unpause. Press q to quit.");
 
     start_color(); /* Start color                  */
     for (int i = 1; i < 8; ++i) {

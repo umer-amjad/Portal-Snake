@@ -119,6 +119,9 @@ void Board::createPortal(const Pos& enter, const Pos& exit, const int pair_num) 
 
 void Board::advanceSnake() {
     Input dir = direction.load();
+    if (dir == PAUSE) {
+        return;
+    }
     Pos new_front = snake.front();
     switch (dir) {
         case UP:
@@ -177,14 +180,18 @@ void Board::moveSnake() {
 
 void Board::updateDirection(Input in) {
     if (in != INVALID) {
-        Input cur = last_direction.load();
-        if ((cur == UP && in == DOWN) || 
-            (cur == DOWN && in == UP) ||
-            (cur == LEFT && in == RIGHT) ||
-            (cur == RIGHT && in == LEFT)) {
+        Input last = last_direction.load();
+        if ((last == UP && in == DOWN) || 
+            (last == DOWN && in == UP) ||
+            (last == LEFT && in == RIGHT) ||
+            (last == RIGHT && in == LEFT)) {
             return;
         }
-        direction.store(in);
+        if (direction.load() == PAUSE && in == PAUSE) {
+            direction.store(last);
+        } else {
+            direction.store(in);
+        }
     }
 }
 

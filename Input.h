@@ -2,7 +2,7 @@
 #define INPUT_H
 
 enum Input {
-    UP = 0, DOWN, LEFT, RIGHT, QUIT, INVALID
+    UP = 0, DOWN, LEFT, RIGHT, QUIT, PAUSE, INVALID
 };
 
 #endif /* INPUT_H */

@@ -13,6 +13,7 @@ Input charToInput(int in) {
         case KEY_LEFT: return LEFT;
         case KEY_RIGHT: return RIGHT;
         case 'q': return QUIT;
+        case 'p': return PAUSE;
         default: return INVALID; //anything else is invalid
     }
 

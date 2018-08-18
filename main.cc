@@ -29,15 +29,33 @@ struct Options {
     bool borders_on = false;
     bool invincible = true;
     int fps = 60;
-    std::set<std::pair<Portal, Portal>> portals = {{{5, 5}, {15, 15}},
-            {{25, 5}, {16, 15}},  
-            {{10, 35}, {15, 14}}, 
-            {{25, 25}, {14, 15}}, 
-            {{5, 15}, {15, 16}}};
+    std::set<std::pair<Portal, Portal>> portals = {
+        {
+            {5, 5},
+            {15, 15}
+        },
+        {
+            {25, 5},
+            {16, 15}
+        },
+        {
+            {10, 35},
+            {15, 14}
+        },
+        {
+            {25, 25},
+            {14, 15}
+        },
+        {
+            {5, 15},
+            {15, 16}
+        }
+    };
 };
 
 //helper function gets number between bounds
-int readInt(int lower, int upper){
+
+int readInt(int lower, int upper) {
     std::string input;
     std::getline(std::cin, input);
     int val = stoi(input);
@@ -53,63 +71,64 @@ std::string boolString(bool b) {
 }
 
 void setOptions(Options& o) {
-    std::cout << "Current options. Enter the associated number to toggle option or edit \n";
-    std::cout << "0 - Height: " << o.height << '\n';
-    std::cout << "1 - Width: " << o.width << '\n'; 
-    std::cout << "2 - Snake speed: " << o.speed << '\n';
-    std::cout << "3 - Snake starting length: " << o.starting_length << '\n';
-    std::cout << "4 - Enlargement factor: " << o.enlargement << '\n';
-    std::cout << "5 - Borders: " << boolString(o.borders_on) << '\n';
-    std::cout << "6 - Invincibility mode: " << boolString(o.invincible) << '\n';
-    std::cout << "7 - Frames per second: " << o.fps << '\n';
-    std::cout << "8 - Portal pairs, " << o.portals.size() << ": \n";
-    for (const auto& portal_pair : o.portals) {
-        std::cout << "  (" << portal_pair.first.r << ", " 
-                << portal_pair.first.c << "), "
-                << "(" << portal_pair.second.r << ", " 
-                << portal_pair.second.c << ") \n";
-    }
-    std::cout << "9 - Exit options\n"; 
-    int option = -1;
-    while (true) {
-        try {
-            switch(readInt(0, 9)){
-                case 0: {
+    try {
+        int option = -1;
+        while (true) {
+            std::cout << "Current options. Enter the associated number to toggle option or edit \n";
+            std::cout << "0 - Height: " << o.height << '\n';
+            std::cout << "1 - Width: " << o.width << '\n';
+            std::cout << "2 - Snake speed: " << o.speed << '\n';
+            std::cout << "3 - Snake starting length: " << o.starting_length << '\n';
+            std::cout << "4 - Enlargement factor: " << o.enlargement << '\n';
+            std::cout << "5 - Borders: " << boolString(o.borders_on) << '\n';
+            std::cout << "6 - Invincibility mode: " << boolString(o.invincible) << '\n';
+            std::cout << "7 - Frames per second: " << o.fps << '\n';
+            std::cout << "8 - Portal pairs, " << o.portals.size() << ": \n";
+            for (const auto& portal_pair : o.portals) {
+                std::cout << "  (" << portal_pair.first.r << ", "
+                        << portal_pair.first.c << "), "
+                        << "(" << portal_pair.second.r << ", "
+                        << portal_pair.second.c << ") \n";
+            }
+            std::cout << "9 - Exit options\n";
+            switch (readInt(0, 9)) {
+                case 0:
                     std::cout << "Enter height \n";
                     o.height = readInt(2, 500);
                     break;
-                } case 1: {
+                case 1:
                     std::cout << "Enter width \n";
-                    o.width = readInt(2, 500); 
+                    o.width = readInt(2, 500);
                     break;
-                } case 2: {
+                case 2:
                     std::cout << "Enter snake speed (blocks per second) \n";
-                    o.speed = readInt(1, 100); 
+                    o.speed = readInt(1, 100);
                     break;
-                } case 3: {
+                case 3:
                     std::cout << "Enter snake starting length (in blocks) \n";
-                    o.starting_length = readInt(1, o.height * o.width); 
+                    o.starting_length = readInt(1, o.height * o.width);
                     break;
-                } case 4: {
+                case 4:
                     std::cout << "Enter enlargement factor (blocks per food eaten) \n";
-                    o.enlargement = readInt(1, 100); 
+                    o.enlargement = readInt(1, 100);
                     break;
-                } case 5: {
+                case 5:
                     o.borders_on = !o.borders_on;
                     std::cout << "Borders are now: " << boolString(o.borders_on) << '\n';
                     break;
-                } case 6: {
+                case 6:
                     o.invincible = !o.invincible;
                     std::cout << "Invincibility mode is now: " << boolString(o.borders_on) << '\n';
                     break;
-                } case 7: {
+                case 7:
                     std::cout << "Enter frames per second \n";
-                    o.fps = readInt(1, 100); 
+                    o.fps = readInt(1, 100);
                     break;
-                } case 8: {
+                case 8:
+                {
                     std::cout << "Enter the number of portal pairs\n";
                     int num_portals = readInt(0, o.height * o.width);
-                    std::set<Portal> all_portals; 
+                    std::set<Portal> all_portals;
                     std::set<std::pair<Portal, Portal>> new_portals;
                     for (int i = 0; i < num_portals; ++i) {
                         std::cout << "Enter the row of the first portal\n";
@@ -124,7 +143,7 @@ void setOptions(Options& o) {
                         }
                         std::cout << "Enter the row of the second portal\n";
                         int second_r = readInt(0, o.height - 1);
-                        std::cout << "Enter the column of the second portal\n";                        
+                        std::cout << "Enter the column of the second portal\n";
                         int second_c = readInt(0, o.width - 1);
                         Portal second{second_r, second_c};
                         if (all_portals.find(second) != all_portals.end()) {
@@ -136,14 +155,13 @@ void setOptions(Options& o) {
                     }
                     o.portals = new_portals;
                     break;
-                } case 9: {
+                }
+                case 9:
                     return;
-                }  
             }
-            break;
-        } catch (const std::out_of_range& e) {
-            std::cout << e.what() << "Press 9 to exit options." << std::endl;
         }
+    } catch (const std::out_of_range& e) {
+        std::cout << e.what() << "Press 9 to exit options." << std::endl;
     }
 }
 

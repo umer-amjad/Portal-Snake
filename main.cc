@@ -71,9 +71,9 @@ std::string boolString(bool b) {
 }
 
 void setOptions(Options& o) {
-    try {
+    while (true) {
         int option = -1;
-        while (true) {
+        try {
             std::cout << "Current options. Enter the associated number to toggle option or edit \n";
             std::cout << "0 - Height: " << o.height << '\n';
             std::cout << "1 - Width: " << o.width << '\n';
@@ -130,10 +130,10 @@ void setOptions(Options& o) {
                     int num_portals = readInt(0, o.height * o.width);
                     std::set<Portal> all_portals;
                     std::set<std::pair<Portal, Portal>> new_portals;
-                    for (int i = 0; i < num_portals; ++i) {
-                        std::cout << "Enter the row of the first portal\n";
+                    for (int i = 1; i <= num_portals; ++i) {
+                        std::cout << "Enter the row of the first portal in portal pair number " << i << '\n';
                         int first_r = readInt(0, o.height - 1);
-                        std::cout << "Enter the column of the first portal\n";
+                        std::cout << "Enter the column of the first portal in portal pair number " << i << '\n';
                         int first_c = readInt(0, o.width - 1);
                         Portal first{first_r, first_c};
                         if (all_portals.find(first) != all_portals.end()) {
@@ -141,9 +141,9 @@ void setOptions(Options& o) {
                         } else {
                             all_portals.insert(first);
                         }
-                        std::cout << "Enter the row of the second portal\n";
+                        std::cout << "Enter the row of the second portal in portal pair number " << i << '\n';
                         int second_r = readInt(0, o.height - 1);
-                        std::cout << "Enter the column of the second portal\n";
+                        std::cout << "Enter the column of the second portal in portal pair number " << i << '\n';
                         int second_c = readInt(0, o.width - 1);
                         Portal second{second_r, second_c};
                         if (all_portals.find(second) != all_portals.end()) {
@@ -159,28 +159,17 @@ void setOptions(Options& o) {
                 case 9:
                     return;
             }
+        } catch (const std::out_of_range& e) {
+            std::cout << e.what() << "Press 9 to exit options." << std::endl;
         }
-    } catch (const std::out_of_range& e) {
-        std::cout << e.what() << "Press 9 to exit options." << std::endl;
-    }
+    } 
 }
 
-int main(int argc, char** argv) {
-    Options o;
-    while (true) {
-        std::cout << "Press p to start game, o to set options, or q to quit.\n";
-        try {
-            setOptions(o);
-            break;
-        } catch (const std::exception& e) {
-            std::cout << "Invalid input. Please try again." << std::endl;
-        }
-    }
+void playGame(const Options& o) {
     Board b(o.height, o.width, o.speed, o.starting_length, o.enlargement, o.borders_on, o.invincible, o.portals);
     View v(o.height, o.width, &b, o.fps);
     std::thread refresh_screen(&View::displayScreen, &v);
     std::thread move_snake(&Board::moveSnake, &b);
-
     while (true) {
         int c = wgetch(v.getWindow());
         std::lock_guard<std::mutex> guard(b.board_update);
@@ -199,5 +188,31 @@ int main(int argc, char** argv) {
     refresh_screen.join();
     move_snake.join();
     std::cout << " You lose!" << std::endl;
+}
+
+int main(int argc, char** argv) {
+    Options o;
+    while (true) {
+        try {
+            std::cout << "Press p to start a game, o to set options, or q to quit.\n";
+            std::string input;
+            std::getline(std::cin, input);
+            if (!(input == "p" || input == "o" || input == "q")) {
+                throw std::invalid_argument("Invalid input entered.");
+            }
+            switch (input[0]) {
+                case 'p':
+                    playGame(o);
+                    break;
+                case 'o':
+                    setOptions(o);
+                    break;
+                case 'q':
+                    return 0; 
+            }
+        } catch (const std::exception& e) {
+            std::cout << "Invalid input." << std::endl;
+        }
+    } 
     return 0;
 }

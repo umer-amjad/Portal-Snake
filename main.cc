@@ -24,10 +24,10 @@ struct Options {
     int height = 30;
     int width = 40;
     int speed = 11;
-    int starting_length = 3;
-    int enlargement = 1;
+    int starting_length = 5;
+    int enlargement = 3;
     bool borders_on = false;
-    bool invincible = true;
+    bool invincible = false;
     int fps = 60;
     std::set<std::pair<Portal, Portal>> portals = {
         {
@@ -67,7 +67,7 @@ int readInt(int lower, int upper) {
 }
 
 std::string boolString(bool b) {
-    return b ? "On" : "Off";
+    return b ? "on" : "off";
 }
 
 void setOptions(Options& o) {
@@ -174,20 +174,16 @@ void playGame(const Options& o) {
         int c = wgetch(v.getWindow());
         std::lock_guard<std::mutex> guard(b.board_update);
 
-        if (b.isGameOver()) {
+        if (b.isGameOver() || c == 'q') {
+            b.updateDirection(QUIT);
             v.setGameOver();
             break;
         }
 
         b.updateDirection(charToInput(c));
-        if (c == 'q') {
-            v.setGameOver();
-            break;
-        }
     }
     refresh_screen.join();
     move_snake.join();
-    std::cout << " You lose!" << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -211,7 +207,7 @@ int main(int argc, char** argv) {
                     return 0; 
             }
         } catch (const std::exception& e) {
-            std::cout << "Invalid input." << std::endl;
+            std::cout << "Invalid input entered." << std::endl;
         }
     } 
     return 0;

@@ -38,6 +38,9 @@ void View::outputTile(int row, int col, char out) {
 }
 
 void View::refreshScreen() {
+    if (board->isGameOver()) {
+        mvprintw(0, 0, "You lose! Press any key to exit the game.                         ");
+    }
     while (!Tile::updated.empty()) {
         Pos pos = Tile::updated.back();
         Tile::updated.pop_back();
@@ -50,9 +53,6 @@ void View::refreshScreen() {
 
 void View::initializeScreen() {
     box(game_window, 0, 0);
-    if (board->isGameOver()) {
-        mvprintw(0, 0, "You lose! Press any key to exit the game.");
-    }
     for (int row = 0; row < board->getHeight(); ++row) {
         for (int col = 0; col < board->getWidth(); ++col) {
             outputTile(row, col, board->output(row, col));

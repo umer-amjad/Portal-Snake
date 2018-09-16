@@ -67,7 +67,6 @@ void View::initializeScreen() {
 void View::displayScreen() {
     while (true) {
         if (game_over.load()){
-            wclear(game_window);
             break;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
@@ -85,6 +84,8 @@ void View::setGameOver() {
 }
 
 View::~View() {
+    wclear(game_window);
+    delwin(game_window);
     clrtoeol();
     refresh();
     endwin();

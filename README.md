@@ -3,3 +3,16 @@ A C++ snake game implemented using the ncurses library and multiple threads, as 
 
 Here are some screenshots of the game in action, with differing options:
 
+![](Screenshots/screen1.png)
+
+A few portals:
+
+![](Screenshots/screen2.png)
+
+Lots of portals:
+
+![](Screenshots/screen3.png)
+
+Going through the portals and the border:
+
+![](Screenshots/screen4.png)

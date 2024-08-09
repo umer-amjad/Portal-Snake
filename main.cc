@@ -24,8 +24,8 @@ struct Options {
     int height = 30;
     int width = 40;
     int speed = 11;
-    int starting_length = 5;
-    int enlargement = 3;
+    int starting_length = 10;
+    int enlargement = 5;
     bool borders_on = false;
     bool invincible = false;
     int fps = 60;
@@ -35,20 +35,28 @@ struct Options {
             {15, 15}
         },
         {
-            {25, 5},
+            {24, 5},
             {16, 15}
         },
         {
-            {10, 35},
+            {5, 34},
             {15, 14}
         },
         {
-            {25, 25},
+            {1, 21},
             {14, 15}
         },
         {
-            {5, 15},
+            {2, 22},
+            {24, 34}
+        },
+        {
+            {2, 20},
             {15, 16}
+        },
+        {
+            {3, 21},
+            {14, 24}
         }
     };
 };
@@ -174,14 +182,20 @@ void playGame(const Options& o) {
         int c = wgetch(v.getWindow());
         std::lock_guard<std::mutex> guard(b.board_update);
 
-        if (b.isGameOver() || c == 'q') {
+        if (c == 'q') {
             b.updateDirection(QUIT);
-            v.setGameOver();
+            break;
+        }
+
+        if (b.isGameOver()) {
+            // wait for user to quit
+            while (wgetch(v.getWindow()) != 'q') {}
             break;
         }
 
         b.updateDirection(charToInput(c));
     }
+    v.setGameOver();
     refresh_screen.join();
     move_snake.join();
 }

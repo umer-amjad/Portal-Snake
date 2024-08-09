@@ -39,7 +39,7 @@ void View::outputTile(int row, int col, char out) {
 
 void View::refreshScreen() {
     if (board->isGameOver()) {
-        mvprintw(0, 0, "You lose! Press any key to exit the game.                         ");
+        mvprintw(0, 0, "You lose! Press 'q' to exit the game.                                 ");
     }
     while (!Tile::updated.empty()) {
         Pos pos = Tile::updated.back();

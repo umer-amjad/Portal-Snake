@@ -58,7 +58,7 @@ public:
     char getOutput() {
         if (snakeCount > 0) return 'O';
         if (portal > 0) return portal;
-	if (food) return '#';
+        if (food) return '#';
         return ' ';
     }
 };

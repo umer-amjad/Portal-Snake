@@ -10,7 +10,7 @@ struct Pos {
 
 class Tile {
     //snake may overlap with itself many times
-    //snake count keeps track 
+    //snake count keeps track
     int snakeCount = 0; 
     bool food = false;
     int portal = 0;
@@ -18,8 +18,7 @@ public:
     Pos pos;
     static std::list<Pos> updated;
     
-    Tile() {
-    }
+    Tile() {}
     
     void setSnake() {
         snakeCount++;
@@ -45,14 +44,17 @@ public:
         updated.push_back(pos);
     }
 
-    bool getPortal() {
+    bool isPortal() {
         return portal > 0;
     }
 
-    void setEmpty() {
+    void removeSnake() {
         snakeCount--;
-        food = false;
         updated.push_back(pos);
+    }
+
+    bool isEmpty() {
+        return !food && snakeCount == 0 && portal == 0;
     }
 
     char getOutput() {

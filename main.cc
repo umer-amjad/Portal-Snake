@@ -114,7 +114,7 @@ void setOptions(Options& o) {
                     break;
                 case 3:
                     std::cout << "Enter snake starting length (in blocks) \n";
-                    o.starting_length = readInt(1, o.height * o.width);
+                    o.starting_length = readInt(1, o.height * o.width - o.portals.size()*2);
                     break;
                 case 4:
                     std::cout << "Enter enlargement factor (blocks per food eaten) \n";
@@ -126,7 +126,7 @@ void setOptions(Options& o) {
                     break;
                 case 6:
                     o.invincible = !o.invincible;
-                    std::cout << "Invincibility mode is now: " << boolString(o.borders_on) << '\n';
+                    std::cout << "Invincibility mode is now: " << boolString(o.invincible) << '\n';
                     break;
                 case 7:
                     std::cout << "Enter frames per second \n";

@@ -8,6 +8,7 @@
 #include <utility>
 #include <map>
 #include <set>
+#include <random>
 
 #include "Input.h"
 #include "Tile.h"
@@ -23,7 +24,7 @@ class Board {
     const int width;
 
     const int enlarge;
-    int length_buffer = 0;
+    int length_buffer;
 
     const bool borders_on;
     const bool invincible;
@@ -31,6 +32,8 @@ class Board {
     int score = 0;
 
     std::vector<std::vector<Tile>> tiles;
+    std::set<Pos> empties;
+    std::mt19937 rngForEmpty;
 
     std::deque<Pos> snake;
     std::atomic<Input> direction;

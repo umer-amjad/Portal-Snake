@@ -210,8 +210,28 @@ int Board::getWidth() {
     return width;
 }
 
+// helper
+char dirToChar(Input dir) {
+    switch (dir) {
+        case UP:
+            return '^';
+        case DOWN:
+            return 'v';
+        case LEFT:
+            return '<';
+        case RIGHT:
+            return '>';
+        default:
+            return 'o';
+    }
+}
+
 char Board::output(int r, int c) {
-    return tiles[r][c].getOutput();
+    char out = tiles[r][c].getOutput();
+    if (out == 'O' && direction.load() == last_direction.load()) {
+        return dirToChar(direction.load());
+    }
+    return out;
 }
 
 int Board::getScore() {

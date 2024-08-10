@@ -181,19 +181,26 @@ void Board::moveSnake() {
 }
 
 void Board::updateDirection(Input in) {
-    if (in != INVALID) {
-        Input last = last_direction.load();
-        if ((last == UP && in == DOWN) || 
-            (last == DOWN && in == UP) ||
-            (last == LEFT && in == RIGHT) ||
-            (last == RIGHT && in == LEFT)) {
-            return;
-        }
-        if (direction.load() == PAUSE && in == PAUSE) {
-            direction.store(last);
-        } else {
-            direction.store(in);
-        }
+    if (in == INVALID) {
+        return;
+    }
+    if (in == QUIT) {
+        direction.store(in);
+        return;
+    }
+    Input last = last_direction.load();
+    Input curr = direction.load();
+    if ((last == UP && in == DOWN) ||
+        (last == DOWN && in == UP) ||
+        (last == LEFT && in == RIGHT) ||
+        (last == RIGHT && in == LEFT) ||
+        (curr == PAUSE && in != PAUSE)) {
+        return;
+    }
+    if (curr == PAUSE && in == PAUSE) {
+        direction.store(last);
+    } else {
+        direction.store(in);
     }
 }
 

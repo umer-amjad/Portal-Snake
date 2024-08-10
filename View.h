@@ -11,12 +11,14 @@ class View {
     Board* board;
     int sleep_time;
     std::atomic_bool game_over;
-public:
-    View(int height, int width, Board* board, int speed); //speed is in fps
 
     void outputTile(int row, int col, char out);
     void initializeScreen();
     void refreshScreen();
+
+public:
+    View(int height, int width, Board* board, int speed); //speed is in fps
+
     void displayScreen();
 
     WINDOW* getWindow();

@@ -85,8 +85,10 @@ void View::setGameOver() {
 
 View::~View() {
     wclear(game_window);
+    wrefresh(game_window);
     delwin(game_window);
-    clrtoeol();
+    clear();
     refresh();
+    clrtoeol();
     endwin();
 }

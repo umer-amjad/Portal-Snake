@@ -41,9 +41,9 @@ void View::refreshScreen() {
     if (board->isGameOver()) {
         mvprintw(0, 0, "You lose! Press 'q' to exit the game.                                 ");
     }
-    while (!Tile::updated.empty()) {
-        Pos pos = Tile::updated.back();
-        Tile::updated.pop_back();
+    while (!board->updated.empty()) {
+        Pos pos = board->updated.back();
+        board->updated.pop_back();
         outputTile(pos.r, pos.c, board->output(pos.r, pos.c));
     }
     mvprintw(board->getHeight() + 3, 0, "Score: %d", board->getScore());

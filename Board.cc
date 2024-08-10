@@ -6,8 +6,6 @@
 #include <random>
 #include <thread>
 
-std::list<Pos> Tile::updated{};
-
 bool operator==(const Pos& p1, const Pos& p2) {
     return (p1.r == p2.r) && (p1.c == p2.c);
 }
@@ -27,7 +25,7 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
     }
     for (int r = 0; r < height; ++r) {
         for (int c = 0; c < width; ++c) {
-            tiles[r][c].pos = {r, c};
+            empties.insert({r, c});
         }
     }
 
@@ -39,20 +37,12 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
             pair_num = 1;
         }
     }
-    for (int r = 0; r < height; ++r) {
-        for (int c = 0; c < width; ++c) {
-            if (tiles[r][c].isEmpty()) {
-                empties.insert({r, c});
-            }
-        }
-    }
 
     direction.store(INVALID);
     last_direction.store(INVALID);
-    auto firstEmpty = empties.begin();
-    tiles[firstEmpty->r][firstEmpty->c].setSnake();
-    snake.push_front(*firstEmpty);
-    empties.erase(*firstEmpty);
+
+    Pos firstEmpty = *empties.begin();
+    updateSnakeFront(firstEmpty);
 
     generateFood();
 }
@@ -99,11 +89,36 @@ void Board::shiftRight(Pos& p) {
     }
 }
 
+void Board::updateSnakeFront(Pos& front) {
+    snake.push_front(front);
+    tiles[front.r][front.c].setSnake();
+
+    empties.erase(front);
+    updated.push_back(front);
+}
+
+void Board::updateSnakeBack() {
+    if (length_buffer == 0) {
+        Pos back = snake.back();
+        snake.pop_back();
+        tiles[back.r][back.c].removeSnake();
+
+        if (tiles[back.r][back.c].isEmpty()) {
+            empties.insert(back);
+            updated.push_back(back);
+        }
+    } else {
+        --length_buffer;
+    }
+}
+
 void Board::generateFood() {
     Pos chosen;
     std::sample(empties.begin(), empties.end(), &chosen, 1, rngForEmpty);
     tiles[chosen.r][chosen.c].setFood();
+
     empties.erase(chosen);
+    updated.push_back(chosen);
 }
 
 void Board::createPortal(const Pos& enter, const Pos& exit, const int pair_num) {
@@ -111,6 +126,12 @@ void Board::createPortal(const Pos& enter, const Pos& exit, const int pair_num) 
     portals[exit] = enter;
     tiles[enter.r][enter.c].setPortal(pair_num);
     tiles[exit.r][exit.c].setPortal(pair_num);
+
+    empties.erase(enter);
+    empties.erase(exit);
+    updated.push_back(enter);
+    updated.push_back(exit);
+
 }
 
 //public functions:
@@ -143,29 +164,15 @@ void Board::advanceSnake() {
         return;
     }
     
-    if (length_buffer == 0) {
-        Pos b = snake.back();
-        snake.pop_back();
-
-        //not overlapping:
-        tiles[b.r][b.c].removeSnake();
-        if (tiles[b.r][b.c].isEmpty()) {
-            empties.insert({b.r, b.c});
-        }
-    } else {
-        --length_buffer;
-    }
-
-    snake.push_front(new_front);
+    updateSnakeBack();
 
     if (tiles[new_front.r][new_front.c].isFood()) {
         length_buffer += enlarge;
         score += 10;
         generateFood();
     }
-    
-    tiles[new_front.r][new_front.c].setSnake();
-    empties.erase({new_front.r, new_front.c});
+    updateSnakeFront(new_front);
+
     last_direction.store(dir);
 }
 

@@ -47,6 +47,10 @@ class Board {
     void shiftLeft(Pos& p);
     void shiftRight(Pos& p);
 
+    void updateSnakeFront(Pos& front);
+    void updateSnakeBack();
+    void advanceSnake();
+
     void generateFood();
 
     void createPortal(const Pos& enter, const Pos& exit, const int pair_num);
@@ -56,7 +60,6 @@ public:
     //width per 2 chars, height per 1 char, speed is number of moves per second 
     Board(int h, int w, int speed, int length, int enlargement, bool borders_on, bool invincible, std::set<std::pair<Portal, Portal>> portal_pairs);
 
-    void advanceSnake();
     void moveSnake();
     void updateDirection(Input in);
     bool isGameOver();
@@ -68,6 +71,7 @@ public:
     int getScore();
 
     std::mutex board_update;
+    std::list<Pos> updated;
 };
 
 #endif /* BOARD_H */

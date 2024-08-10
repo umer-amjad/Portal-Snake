@@ -15,15 +15,11 @@ class Tile {
     bool food = false;
     int portal = 0;
 public:
-    Pos pos;
-    static std::list<Pos> updated;
-    
     Tile() {}
     
     void setSnake() {
         snakeCount++;
         food = false;
-        updated.push_back(pos);
     }
 
     bool isSnake() {
@@ -32,7 +28,6 @@ public:
 
     void setFood() {
         food = true;
-        updated.push_back(pos);
     }
 
     bool isFood() {
@@ -41,7 +36,6 @@ public:
 
     void setPortal(int pair_num) {
         portal = pair_num;
-        updated.push_back(pos);
     }
 
     bool isPortal() {
@@ -50,7 +44,6 @@ public:
 
     void removeSnake() {
         snakeCount--;
-        updated.push_back(pos);
     }
 
     bool isEmpty() {

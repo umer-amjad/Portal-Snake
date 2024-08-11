@@ -47,7 +47,7 @@ class Board {
     void shiftLeft(Pos& p);
     void shiftRight(Pos& p);
 
-    void updateSnakeFront(Pos& front);
+    void updateSnakeFront(Pos& front, Input dir);
     void updateSnakeBack();
     void advanceSnake();
 
@@ -67,7 +67,7 @@ public:
     int getHeight();
     int getWidth();
 
-    char output(int r, int c);
+    wchar_t output(int r, int c);
     int getScore();
 
     std::mutex board_update;

@@ -42,7 +42,7 @@ Board::Board(int h, int w, int speed, int length, int enlargement, bool borders_
     last_direction.store(INVALID);
 
     Pos firstEmpty = *empties.begin();
-    updateSnakeFront(firstEmpty);
+    updateSnakeFront(firstEmpty, INVALID);
 
     generateFood();
 }
@@ -89,9 +89,13 @@ void Board::shiftRight(Pos& p) {
     }
 }
 
-void Board::updateSnakeFront(Pos& front) {
+void Board::updateSnakeFront(Pos& front, Input dir) {
     snake.push_front(front);
-    tiles[front.r][front.c].setSnake();
+    wchar_t vis = 0x2B9C + dir; // arrowheads are ordered LEFT UP RIGHT DOWN, matching Input
+    if (dir == INVALID) {
+        vis = 'O'; // circle
+    }
+    tiles[front.r][front.c].setSnake(vis);
 
     empties.erase(front);
     updated.push_back(front);
@@ -171,7 +175,7 @@ void Board::advanceSnake() {
         score += 10;
         generateFood();
     }
-    updateSnakeFront(new_front);
+    updateSnakeFront(new_front, dir);
 
     last_direction.store(dir);
 }
@@ -216,7 +220,7 @@ int Board::getWidth() {
     return width;
 }
 
-char Board::output(int r, int c) {
+wchar_t Board::output(int r, int c) {
     // if (empties.find({r, c}) != empties.end() && !tiles[r][c].isEmpty()) {
     //     return '*'; // debug error condition
     // }

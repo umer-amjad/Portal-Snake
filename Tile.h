@@ -14,10 +14,12 @@ class Tile {
     int snakeCount = 0; 
     bool food = false;
     int portal = 0;
+    wchar_t visual = 0;
 public:
     Tile() {}
     
-    void setSnake() {
+    void setSnake(wchar_t vis) {
+        visual = vis;
         snakeCount++;
         food = false;
     }
@@ -50,10 +52,10 @@ public:
         return !food && snakeCount == 0 && portal == 0;
     }
 
-    char getOutput() {
-        if (snakeCount > 0) return 'O';
+    wchar_t getOutput() {
+        if (snakeCount > 0) return visual;
         if (portal > 0) return portal;
-        if (food) return '#';
+        if (food) return 0x0001F34F;
         return ' ';
     }
 };

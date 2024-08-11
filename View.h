@@ -12,7 +12,7 @@ class View {
     int sleep_time;
     std::atomic_bool game_over;
 
-    void outputTile(int row, int col, char out);
+    void outputTile(int row, int col, wchar_t out);
     void initializeScreen();
     void refreshScreen();
 

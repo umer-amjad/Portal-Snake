@@ -1,6 +1,6 @@
 CXX=g++
 CPPVERSION=--std=c++17
-LDLIBS=-lncurses -lpthread
+LDLIBS=-lncursesw -lpthread
 SOURCES=main.cc Board.cc View.cc
 HEADERS=Tile.h Board.h View.h Input.h
 

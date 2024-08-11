@@ -5,6 +5,7 @@
 #include <mutex>
 
 View::View(int height, int width, Board* board, int speed) : board(board), sleep_time(1000 / speed) {
+    setlocale(LC_ALL, "");
     initscr(); //initialize n_curses 
     noecho(); //don't echo user input
     cbreak(); //pass on input directly, no need for newline or space
@@ -27,13 +28,13 @@ View::View(int height, int width, Board* board, int speed) : board(board), sleep
     initializeScreen();
 }
 
-void View::outputTile(int row, int col, char out) {
+void View::outputTile(int row, int col, wchar_t out) {
     if (out < 8) { //is portal
         wattron(game_window, COLOR_PAIR(out));
-        mvwprintw(game_window, row + 1, 2 * col + 1, "%c", 'X');
+        mvwprintw(game_window, row + 1, 2 * col + 1, "%C", 0x26D2);// 0x23E3);
         wattroff(game_window, COLOR_PAIR(1));
     } else {
-        mvwprintw(game_window, row + 1, 2 * col + 1, "%c", out);
+        mvwprintw(game_window, row + 1, 2 * col + 1, "%C", out);
     }
 }
 
@@ -89,6 +90,5 @@ View::~View() {
     delwin(game_window);
     clear();
     refresh();
-    clrtoeol();
     endwin();
 }
